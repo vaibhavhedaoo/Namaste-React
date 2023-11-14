@@ -1,4 +1,4 @@
-# Namaste React
+# Namaste React 🚀🚀🚀
 # converting a HTML into a react 
 1.  init npm by using npm init, and answer the question to craete a package.json file
 2.  install parcel as DEV dependencies by using npm install Parcel -D, -D is used to add DEV dependencies
