@@ -30,6 +30,26 @@
 # Episode 04 | Talk is cheap, show me the code!!!
 ## In this Episode we have learned component, passing props, passing the dynamic data, using keys etc. 
 - In this Episode we are going to build a food ordering app like zomato
+- page layout looks like this
+-
+/*
+* Header
+* - Logo
+* - NAV Items
+* Body
+* - Search 
+* - Restaurant container
+*   - Restaurant Card
+*     - image
+*     - name 
+*     - star rating, cuisines, ETA,  
+* Footer
+* - Copyright
+* - Links
+* - Address
+* - Contact
+*/
+
 - In this app we have done component composition and created a food ordering app which looks like as follows
 ![Food app](image.png)
 - For the UI devlopemnt we need to do the planning and we need to create a design or a mock up
@@ -61,3 +81,31 @@
 - JSX and component are nothing but the object
 - Babel is used for transpiling the code, it is the compiler  
 
+=======================================================Episode 04 ends here======================================================================
+
+# Episode-05 | Let's get Hooked 
+- In this chapter we are going to cover react hooks 
+- first of all create a seprate file for each component inside a component folder which is inside src folder
+- export the component with the help of export default  and import the same component whenever it is required
+- Do not keep any hard quoted data or URL, inside a component file, it is a industry standard, hard quoted data should be keep seprate like utils folder like constants.js
+- There 2 types of Export and 2 types of Import, Default export, Named export and Default import, Named Import
+- A file can not have more than 1 default export
+- for named export just write the word "export" infront of element
+- we can attach onclick evevnt to the button by adding a callback , eg `onClick={()=>{console.log("Button clicked")}}`
+- **Notes** React solves the problem of consistency and dom manipulation, whenever the data changes the UI should change, UI layer and data layer should work in sync, updating the dom efficientely very fast with the help of virtual dom
+- whenevre you want a functionality like when data is change your UI should change use **state variable**, to make any variable a state variable, we can use state hook, A react hook is nothing but a normal JS function with some super power, it is nothing but a utility function given by react
+
+# React Hooks\
+- Hooks are Normal JS utility function, these function is available inside React, for using Hooks, we need to import it 
+- there are 2 very important hooks 1.useState()  2.useEffect(),  most of the time you use these 2 most importrnt hooks, there are other hook as well
+## useState() Hook
+- useState() => used for Super powerful state variable in React, you need to import it as a named import, it maintain the state for the component, [read more here](https://www.w3schools.com/react/react_usestate.asp) , as soon as the data changes which is using useState, the render of the UI happend automatically.
+- useState() is returning array of 2 element in the form of array destructuiring, first is the pointer to actual data and second is a function which is nothing but a trigger, whenever the function gets called React Fiber algorithen start execution and do a new Render.
+- we can use useStae like 
+`const arr = useState(resList);`
+`const [listOfRestaurants, setListOfRestraunt] = arr;` arr contains 2 element inside it as it is a array, which is equivalant to a one liner `const [listofRestaurant,setListofRestaurant] = useState(resList);`
+
+# Internals of the Render
+- React uses reconsiliation algorithem introduced in React 16, it is also known as React fibre, on UI we have a DOM, React creates a virtual DOM, when UI changes after any filteration, then the resultant UI changes with the help of virtual DOM and diff algorithem
+- Actual DOM is the list of tag, Virtual DOM is the representation of actual DOM in the form of object.
+- Diff algorithem, finds out the difference between 2 virtual dom previuos virtual DOM and latest virtual DOM
