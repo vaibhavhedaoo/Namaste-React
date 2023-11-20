@@ -1,29 +1,73 @@
 import React from "react";
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import RestaurantCard from "./RestaurantCard";
-import resList from './../utils/mockdata'
-
+import { CDN_SWIGGY_RESTAURANT_API } from "../utils/constants";
+import resList from "./../utils/mockdata";
+import ShimmerCard from "./ShimmerCard";
 
 const Body = () =>{
-    const [listofRestaurant,setListofRestaurant] = useState(resList); 
+    //console.log(resList[0].data.cards[3].card.card.info);
+    const [listofRestaurant,setListofRestaurant] = useState([]);//([resList[0].data.cards[3].card.card.info]); 
+    const [searchText,setSearchText] = useState("");
+    const [filteredRestaurant,setFilteredRestaurant] = useState([]);
+    var allRes =[]; 
+
+    useEffect(()=>{
+        fetchData();
+        },[]);
+    
+        const fetchData = async() =>{
+            const data = await fetch(CDN_SWIGGY_RESTAURANT_API);
+            const json = await data.json();
+            //console.log(json.data.cards);
+            for (let i = 3; i < json.data.cards.length; i++) {
+                allRes.push(json.data.cards[i].card.card.info);    
+              }
+            //console.log(allRes);
+            setListofRestaurant(allRes);  
+            setFilteredRestaurant(allRes);  
+        }
+        // if(listofRestaurant.length === 0)
+        // {
+        //     return (<h1>Loading...</h1>);
+        // }
+        //  rendering shimmer effect when no data is there is called conditional rendering
+        if(listofRestaurant.length === 0)
+        {
+           return <ShimmerCard/>;
+        }
        return(
         <div className="body">
             <div className="filter">
+                <div className="search">
+                    <input type="text" className="search-box" value={searchText} onChange={(e)=>{
+                        setSearchText(e.target.value);
+                    }}/>
+                    <button className="search-btn" onClick={()=>{
+                        //Filter the res cards and update the UI
+                        const filteredRestaurant = listofRestaurant.filter(
+                            (res) => res.name.toUpperCase().includes(searchText.toUpperCase())
+                        );
+                            setFilteredRestaurant(filteredRestaurant);
+                        
+                    }}>Search</button>
+                </div>
                 <button className="filter-btn" onClick={()=>{
 
                     const filteredListofRestaurant = listofRestaurant.filter(
-                        (res) => res.card.card.info.avgRating >4
+                        (res) => res.avgRating >3.9
                     );
-                    setListofRestaurant(filteredListofRestaurant);
+                    setFilteredRestaurant(filteredListofRestaurant);
                     }}>Top Rated Restaurant</button>
                     <button className="filter-btn" onClick={() =>{
-                        setListofRestaurant(resList);
-                    }}>Show All</button>
+                        setFilteredRestaurant(listofRestaurant);
+                    }}>Clear Filter</button>
+                    
             </div>
             <div className="restaurant-container">
                 {
-                    listofRestaurant.map( restaurant => (
-                    <RestaurantCard key={restaurant.card.card.info.id} resData={restaurant} />)
+                    filteredRestaurant.map( restaurant => (
+                    <RestaurantCard key={restaurant.id} resData={restaurant} />)
                 )}
                 {/* Don't use the below code change it to dynamic code by using map function use above  */}
                 {/* <RestaurantCard resData ={resList[0]} />

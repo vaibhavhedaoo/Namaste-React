@@ -104,8 +104,54 @@
 - we can use useStae like 
 `const arr = useState(resList);`
 `const [listOfRestaurants, setListOfRestraunt] = arr;` arr contains 2 element inside it as it is a array, which is equivalant to a one liner `const [listofRestaurant,setListofRestaurant] = useState(resList);`
+- Whenever the local state variable changes/updates React re-render's the Component, React triggers a reconciliation cycle
 
+## useEffect() Hook
+- We will be going to discuss in next chapter
 # Internals of the Render
 - React uses reconsiliation algorithem introduced in React 16, it is also known as React fibre, on UI we have a DOM, React creates a virtual DOM, when UI changes after any filteration, then the resultant UI changes with the help of virtual DOM and diff algorithem
-- Actual DOM is the list of tag, Virtual DOM is the representation of actual DOM in the form of object.
+- Actual DOM is the list of tag, **Virtual DOM is the representation of actual DOM in the form of object**.
 - Diff algorithem, finds out the difference between 2 virtual dom previuos virtual DOM and latest virtual DOM
+
+# Episode-06 | Exploring the World
+## Monolith vs Micro Service
+- In this chapter we are going to dicuss monolith vs micro service arch., fetch data dynamically and populate 
+- Monolith : it is a huge big project contains API, UI code, auth, DB code, notifications etc. simple changes require a lot of effort also whole application needs to be deployed
+- Micro service : we have different services for different job, all the application are seprate, but they can talk to each other, all these service combine together and make a Big App, this is also know as sepration of concern, it uses a concept called single responsibility principle, these servoces talk to each other
+
+## Fetching data dynamically
+- there are 2 approach to fetch the data dynamically 1. As soon as page Load, call a API, wait for the data and Render the UI 2. as soon as page load we will Render the UI which shows the skeleton and then do a API call and the re render or fill the data  on the page.
+- we are going to use 2nd approach, as it is a better approach it gives you a better UX, user do not see a lag, user thinks something is loading and no screem freeze, dosn't matter if we are rendering page multiple times
+-  after getting the data use **optional chaining** for checking null values, [read more here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining)
+- fetching data requires some time, to improve the user experience we can show a spinning loader 
+    `if(listofRestaurant.length === 0)
+        {
+            return (<h1>Loading...</h1>);
+        }`
+        , showing a loader is ok but not latest industry standard, we can use shimmer UI [read more here](https://johannes-z.github.io/office-ui-fabric-vue/components/progress/shimmer.html)
+- you can also use skeleton UI, both shimmer and skeleton gives you a feeling of screen is almost loaded        
+
+## useEffect() in action
+- like useState() we are having useEffect() hook, it is a JS function which react gives to us, it has specific use case/purpose [read more here](https://react.dev/reference/react/useEffect)
+- we need to import useEffect() from react, it is a named import similar to useState() 
+- syntax : useEffect take 2 argument, first is the arrow function, it is a callback function, and second argument is the dependency array which is optional  `useEffect(()=>{
+        console.log("useeffect hook");
+    },[])`
+- useEffect() callback function will gets called, immediately after your component renders 
+- you can use useEffect() hook when you need to do something after the component gets rendered.
+-  we can fetch the data from remote API with the help of fetch() method and it is given to us by browser
+
+## Implementing shimmer
+- create a seprate component, which is just like cards, and return the shimmer UI when you don;t have data with you
+        `if(listofRestaurant.length === 0)
+        {
+           return <ShimmerCard/>;
+        }` 
+- it makes fake expression
+- rendering shimmer effect when no data is there is called **conditional rendering**
+- instead of if...else you can use ternary operator
+
+## implementing Search box
+- we have created a UI for the search box, on click of Search button we are searching the data and update the UI
+- so, to get the value of serch criteria that the user enters in the text box, we need to bind the **value property** of the text box to the state variable     
+- **By default the text box won't allow you to type anything if you have used the useState() which is tied text box** `const [searchText,setSearchText] = useState("");` ,  you have to use onChange() event to set the state of the same textbox like  ` onChange={(e)=>{  setSearchText(e.target.value); }`, by doing this you trigger a re-render process on the component
