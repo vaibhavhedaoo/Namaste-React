@@ -4,6 +4,7 @@ import RestaurantCard from "./RestaurantCard";
 import { CDN_SWIGGY_RESTAURANT_API } from "../utils/constants";
 import resList from "./../utils/mockdata";
 import ShimmerCard from "./ShimmerCard";
+import { Link } from "react-router-dom";
 
 const Body = () =>{
     //console.log(resList[0].data.cards[3].card.card.info);
@@ -67,7 +68,9 @@ const Body = () =>{
             <div className="restaurant-container">
                 {
                     filteredRestaurant.map( restaurant => (
-                    <RestaurantCard key={restaurant.id} resData={restaurant} />)
+                   <Link to={"/restaurant/"+restaurant.id} key={restaurant.id}>
+                        <RestaurantCard  resData={restaurant} />
+                   </Link> )
                 )}
                 {/* Don't use the below code change it to dynamic code by using map function use above  */}
                 {/* <RestaurantCard resData ={resList[0]} />

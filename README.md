@@ -98,6 +98,7 @@
 # React Hooks\
 - Hooks are Normal JS utility function, these function is available inside React, for using Hooks, we need to import it 
 - there are 2 very important hooks 1.useState()  2.useEffect(),  most of the time you use these 2 most importrnt hooks, there are other hook as well
+- Whenever you see a function name starts with the name **use** it's a hook, it's a common convention 
 ## useState() Hook
 - useState() => used for Super powerful state variable in React, you need to import it as a named import, it maintain the state for the component, [read more here](https://www.w3schools.com/react/react_usestate.asp) , as soon as the data changes which is using useState, the render of the UI happend automatically.
 - useState() is returning array of 2 element in the form of array destructuiring, first is the pointer to actual data and second is a function which is nothing but a trigger, whenever the function gets called React Fiber algorithen start execution and do a new Render.
@@ -105,6 +106,8 @@
 `const arr = useState(resList);`
 `const [listOfRestaurants, setListOfRestraunt] = arr;` arr contains 2 element inside it as it is a array, which is equivalant to a one liner `const [listofRestaurant,setListofRestaurant] = useState(resList);`
 - Whenever the local state variable changes/updates React re-render's the Component, React triggers a reconciliation cycle
+- **Industry best standard** 1.Never create useState() outside your component. 2.Always create useState() on top where function start 3.Never create useState() inside if...else block or a for loop or a function, it create inconsistency
+
 
 ## useEffect() Hook
 - We will be going to discuss in next chapter
@@ -137,9 +140,18 @@
 - syntax : useEffect take 2 argument, first is the arrow function, it is a callback function, and second argument is the dependency array which is optional  `useEffect(()=>{
         console.log("useeffect hook");
     },[])`
-- useEffect() callback function will gets called, immediately after your component renders 
+- useEffect() callback function will gets called, immediately after your component renders, No matter what useEffect() gets called after initial render   
 - you can use useEffect() hook when you need to do something after the component gets rendered.
--  we can fetch the data from remote API with the help of fetch() method and it is given to us by browser
+- we can fetch the data from remote API with the help of fetch() method and it is given to us by browser,
+- The basic nature of useEffect is to execute when the component render, but dependency array changes it's behaviour 
+- the second optional parameter in useEffect which is dependency array it can play a very important role.
+  1. if no dependency array is not provided use effect gets called  on every component  render 
+ `useEffect(()=>{ console.log("Useeffect called from Header"); });`
+  1.  if we provide empty dependency array [], then useEffect gets called on only initial render just once when the component render's first time, even if the component render's multiple times
+    `useEffect(()=>{ console.log("Useeffect called from Header"); },[]);`
+  1. if you provide anything inside dependency array then, useEffect() gets called everytime when dependency changed
+  `useEffect(()=>{ console.log("Useeffect called from Header"); },[btnName]);`
+  In the above example in dependency array btnName is present, so whenever the btnName is changed the useEffect() gets called.   
 
 ## Implementing shimmer
 - create a seprate component, which is just like cards, and return the shimmer UI when you don;t have data with you
@@ -155,3 +167,86 @@
 - we have created a UI for the search box, on click of Search button we are searching the data and update the UI
 - so, to get the value of serch criteria that the user enters in the text box, we need to bind the **value property** of the text box to the state variable     
 - **By default the text box won't allow you to type anything if you have used the useState() which is tied text box** `const [searchText,setSearchText] = useState("");` ,  you have to use onChange() event to set the state of the same textbox like  ` onChange={(e)=>{  setSearchText(e.target.value); }`, by doing this you trigger a re-render process on the component
+===========================================Episode -06 Ends here=================================================
+
+# Episode-07 | Finding th Path
+- In this chanpter we are going to lear about **Routing in React Application**, we will learn how to create multiple react routes, nested routes, creating different pages and take deep diving inside the Hooks
+- For Routing functionalities we are going to use Routing package 
+- Functionality we are going to implement if we type localhost:1234/aboutus then we should navigate to 'About US' page  
+- We need to write the routing code in our Root component i.e. in our App.js file, we need to create routing configuration
+- do a named import, import {createBrowserRouter} from "react-router-dom" it will be used to create routing configuration
+- create a function named createBrowserRouter, it will take a list/array as a parameter which contains many JS objects of paths
+`const appRouter =createBrowserRouter([
+    {
+        path :"/",
+        element : <AppLayout/>
+    },
+    {
+        path:"/about",
+        element :<About/>
+    },
+    {
+        path:"/contactus",
+        element:<Contactus/>
+    },
+    {
+        path:"/cart",
+        element:<Cart/>
+    }
+
+]);`
+
+- in above function we are using the convention as, in URL if we encontered '/about' then we need to navigate to <about/> component likewise. 
+- The above configuartion need to be provide inside a special component called RouterProvider, RouterProvider is the part of react-router-dom. ![RouterProvider](image-3.png)
+- Earlier we are rendering our AppLayout inside the root directely `root.render(<AppLayout/>);`, now instead of this we are going to provide the configuration  `root.render(<RouterProvider router={appRouter}/>);`
+- react-router-dom gives us the access of **useRouterError()** hook, with the help of useRouterError() Hook it gives you more information about the error  `const err = useRouteError();  console.log(err);`
+
+![useRouterError()](image-2.png)
+- till now we have implmented basic routing, but the problem is we are losing the structure of the page like Header and footer, let's fix it.
+- we are making Header and Footer constant, by creating/using children routes inside createBrowserRouter(), which looks like this
+`const appRouter =createBrowserRouter([
+    {
+        path :"/",
+        element : <AppLayout/>,
+        errorElement : <ErrorPage/>,
+        children :[
+            {
+                path:"/",
+                element:<Body/>,
+                errorElement :<ErrorPage/>
+            },
+            {
+                path:"/about",
+                element :<About/>
+            },
+            {
+                path:"/contactus",
+                element:<Contactus/>
+            },
+            {
+                path:"/cart",
+                element:<Cart/>
+            }
+        ]
+    }
+]);`
+
+also our AppLayout is using <Outlet/> which renders different childern component dependes upon the URL, this Outlet is the part of "react-router-dom" 
+Now, structre of  AppLayout looks like this 
+`const AppLayout = () => {
+    return (<div className="app">
+        <Header/>
+        <Outlet/>
+    </div>);
+}`
+- Basically <Outlet/> is  nothing but a placeholder, where childern component renders, depends upon the URL. 
+- While using React never use Anchor tag for the redirection, because whole page gets refreshed, instead use **Link** your page will not reloads and render the required component faster, Link basically creates the anchor tag in the HTML, Link is basically a wrapper over the Anchor tag but it does not refresh the page while if you use Anchor tag directely it will going to refresh the pahe hence Link is called a sspecial component,Link component are a super power which is given by the react-router-dom, the Link component exactely works as the Anchor tag , you need to import it and use it like Anchor tag and pass 'to' attribute which is nothing but the string, you have given to the configuration
+![Link](image-4.png)   
+- when different components renders in the same page it's called single page application
+- there are 2 types of Routing in web Apps 1. Client side Routing  2. Server side Routing
+- **Client Side Routing**  : In this Routing we are not making the server side call, we are just rendering the specific Component, as all the component were already available inside the browser
+- **Server Side Routing**  : after clicking on Anchor tag if the network calls happend and it pull the data from server and render it on the browser it is called as Server side Routing 
+
+## Dynamic Routing
+- In this section we are creating a page/component which will shows us details fo restaurant called as Restaurant menu page when we click on it from the list of Restaurant on Home page
+- Create a new RestaurantMenu component, and configure the route in children section with dynamic data, "/restaurant/:resId" here :resID denotes a dynamic data, **useParam** is the Hook given by React-router-dom, which is used to read the Parameters from the URL, we are going to read resID with the help of this Hook, eg  ` const params = useParams();`, it will return a object {resID:123}, hence we are going to destructureing 
