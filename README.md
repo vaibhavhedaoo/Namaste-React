@@ -152,6 +152,7 @@
   1. if you provide anything inside dependency array then, useEffect() gets called everytime when dependency changed
   `useEffect(()=>{ console.log("Useeffect called from Header"); },[btnName]);`
   In the above example in dependency array btnName is present, so whenever the btnName is changed the useEffect() gets called.   
+  - You can return a function which is used for the **clean up purpose**, check Episode 08, class component and componentWillUnmoiunt method, the function will gets when you leave the component, it is called as unmounting phase 
 
 ## Implementing shimmer
 - create a seprate component, which is just like cards, and return the shimmer UI when you don;t have data with you
@@ -250,3 +251,44 @@ Now, structre of  AppLayout looks like this
 ## Dynamic Routing
 - In this section we are creating a page/component which will shows us details fo restaurant called as Restaurant menu page when we click on it from the list of Restaurant on Home page
 - Create a new RestaurantMenu component, and configure the route in children section with dynamic data, "/restaurant/:resId" here :resID denotes a dynamic data, **useParam** is the Hook given by React-router-dom, which is used to read the Parameters from the URL, we are going to read resID with the help of this Hook, eg  ` const params = useParams();`, it will return a object {resID:123}, hence we are going to destructureing 
+====================================================Episode 07 Ends here==============================================================================================
+
+# Episode 08 | Let's get classy
+- In this Episode we will be learning about **Class based component**, older React application created using the Class based component and new modern React application gets created using the function based component. Knowing class based and function based component will make your understanding more stronger
+- To learn Class based component, we are going to create a seprate About US page which is a class based component,  we will going to fetch data from github of the team member and show the data on about us page
+- For above functionality we will create a functional component and then we are going to convert it into a class based component, first of all create a class and extends it from React.Component `class UserClass extends React.Component{  }`, this is nothing but a class component, now if you want to render HTML by returning JSX then create a render() method, React.Component is a class given by React to us 
+![Class based and functional component](image-5.png)
+
+- Now if we want to use **props inside class component**, then pass the paramenter similar way as you pass into the functional component, but to receive the props you need to use the constructor using super(props), and in case you want the data to ba available for rendering as a destructuring object from the props, destructure it inside a render() function. ![class component binding data using destrctureing](image-6.png)
+- Loading of class component means creating a instance of the class, whenever a instance is created a constructor is gets called, constructor is the best place to receive the props and to create a state in class based component 
+- Now we are going to look into how we can create **state variable in class based component**, State has been created in class component when instance has been created with the help of a reserved word *state*, it is a whole big object you can add many properties inside it like `this.state ={ count : 0 }` , and you can access the state variable like `{this.state.count}` you can also destructure it inside render function similar to props destructure
+- if you want to use more state variable just push it into the state variable because it is a object which can contains many object, Now we can use setState() method to update the state variable, never update state variable directely. ![setState()](image-7.png)
+- **React life cycle method** - When class based component encountered anywhere, constructor gets called, it's object gets created, class is instantiated. Once the constructor is called then the render() gets called
+- When you Embed a child inside a Parent, basically while using class based component when you use child and parent both class based component then the order of execution is as follows `Parent constructor-> Parent Render-> Child Constructor-> child Render`
+- there is a method called **componentDidMount()**, this method gets executed when component gets loaded or mounted, hence the cycle of execution goes in the following way `Constructor -> Render -> componentDidMount`, so for Parent and Child relationship it executes like  `Parent constructor-> Parent Render-> Child Constructor-> child Render -> child componentDidMount -> Parent ComponentDidMount`. Most of the time **componentDidMount() is used for calling the API**, as it gets called exactely next  after a component loads completely. [check the digram here](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/), basically there are 2 phase  Render and Commit phase, Render phase executes first and then Commit phase execuyes 
+- Render and commit phase will be batched together for the child component of the same type, because rendering/updating the DOM is expnsive operation
+        
+Parent Constructor
+- Parent render
+
+- First Constructor
+First Render
+
+- Second Constructor
+Second Render
+<-Dom Update - In single batch>
+First Component DidMoun
+Second Component DidMount
+
+Parent ComponentDidMount
+## API call to get data in a class component inside componentDidMount()
+- For calling API we are using componentDidMount() method, bacause this method gets executed when component gets loaded or mounted, we are just using the fetch() method to fetch the data, initally it will render the Page with the default data, as soon as data gets received set the data in state and then it will update the data
+- When we do a setState, then Updating phase start, React triggers Rnder once again, it calculate the difference and then DOM gets updated after that **componentDidUpdate()** method gets called
+- **componentWillUnmount()** this method gets called when the component will disappear from the page, or removed from the UI, this function is used to **clean up**. This clean up functionality can be acieve in functional component by retruning a function from the useEffect() hook.   
+- so, there are mainly 3 functions which are having specific use 1. componentDidMount()  2. componentDidUpdate  3. componentWillUnmount   [For more info read this](https://www.w3schools.com/react/react_class.asp)
+
+
+
+
+# Notes with Q&A here
+- [check this profile](https://github.com/Harshita-Kohli/Namaste-React) with [Linkedin](https://www.linkedin.com/in/harshita-kohli-4499b91b6/recent-activity/all/) 
