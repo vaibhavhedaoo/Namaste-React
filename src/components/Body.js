@@ -5,12 +5,15 @@ import { CDN_SWIGGY_RESTAURANT_API } from "../utils/constants";
 import resList from "./../utils/mockdata";
 import ShimmerCard from "./ShimmerCard";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
+
 
 const Body = () =>{
     //console.log(resList[0].data.cards[3].card.card.info);
     const [listofRestaurant,setListofRestaurant] = useState([]);//([resList[0].data.cards[3].card.card.info]); 
     const [searchText,setSearchText] = useState("");
     const [filteredRestaurant,setFilteredRestaurant] = useState([]);
+    const onlineststus = useOnlineStatus();
     var allRes =[]; 
 
     useEffect(()=>{
@@ -33,6 +36,13 @@ const Body = () =>{
         //     return (<h1>Loading...</h1>);
         // }
         //  rendering shimmer effect when no data is there is called conditional rendering
+
+        if(onlineststus === false)
+        {
+            return (<h1>You are offline</h1>);
+        }
+
+
         if(listofRestaurant.length === 0)
         {
            return <ShimmerCard/>;

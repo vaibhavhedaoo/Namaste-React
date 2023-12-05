@@ -287,8 +287,32 @@ Parent ComponentDidMount
 - **componentWillUnmount()** this method gets called when the component will disappear from the page, or removed from the UI, this function is used to **clean up**. This clean up functionality can be acieve in functional component by retruning a function from the useEffect() hook.   
 - so, there are mainly 3 functions which are having specific use 1. componentDidMount()  2. componentDidUpdate  3. componentWillUnmount   [For more info read this](https://www.w3schools.com/react/react_class.asp)
 
+# Episode - 09 | Optimizing the App
+- In this Episode we will learn how we can write our APP in better way, How we can optimize our APP, how to make app performant, fast, light weight so that it loads very fast, also we are going to learn about **Custom Hooks**, also we are going to looks into **SOLID**
+- **S** -> **Single Responsibilty Principle** : A entity should have a single responsibilty, code becomes reusable, maintainable, testable
 
+
+## **Custom Hooks**
+- Hooks are nothing but the utility functions which is having special powers
+- we are going to create our own custom hook, we are going to use it inside RestaurantMenu component
+- The major responsibility of RestaurantMenu component is 1. call API grab the data 2.display the data on the UI, we are going to create a Hook which will fetch the data, after implementing this Hook, we are going to acheive single responsibility principle so that components responsibility to just show the restaurant menu and code becomes much cleaner. Now the RestaurantMenu is not concerned how data gets fetched, fetching logic will be abstracted or Hidden  
+### Creating useRestaurantMenu() Hook
+- Create a seprate file, with exactely same name, always start the name with the word 'use' so that it will be identified as Hook, In this Hook, we are just receiving the resID and fetching the data with the help of fetch() method and store the data in local state variable then we return the same data back, check  useRestaurantMenu.js file.
+
+### Creating useOnlineStatus() Hook
+- Now we are going to create new hook to check if the user is online or not, we are going to create a new hook and we are going to use Window:online event you can check the documentation online, this Hook will help you to show you if you are online or offline, to check if you are online or offline you can change the setting of your browser from the network tab, check the code in useOnlineStatus.js file
+
+**Problem** - As your App is growing it will have a lot number of component, Parcel will create a bundled JS file, which will be very big in size, and because of this your APP will be very slow to render the content on the browser, **Solution** - Breakdown your APP into the smaller pieces, so that the bumdling tool Parcel will craete smaller bundle of the JS file, This Process is called as **Chunking**  also called as **code splitting**  also called as **dynamic Bundling** also called as **Lazy Loading**
+- **On Demand loading** of the code/content is called **Lazy Loading**, Im make my trip APP, we are loading Flight initially and when user clicks on Hotel we will load Hotel related component, initially we are not loading all the component  
+
+## Bundling/ Lazy Loading/ On Demand Loading 
+- How to make smaller bundles, when to make smaller bundle, What should be there in these smaller bundle
+- for above problem we need to do the logical sepration of the bundle, means the bundle should have enough code for the feature, for eg. Food delivery, grocery delivery etc. all this is having altogether seprate entity, so we can group them in a bundle, create a component for grocery delivery, But now Grocery is again the part of our food delivery APP, we can seprate it as both are logically different, in APP.js you can see we have imported the grocery component directely imported hence it is creating a single bundle for food delivery and grocery APPs 
+- Instead use lazy() from React as a named import, to load the required component, while we are using lazy() we are acheiving the bundling it will create a seprate js file, but it will also throw a new error, as the main JS file was searching for Grocery which is going to lazy loaded but the file for Grocery was not received yet, to solve this problem we need to use suspence [read more here](https://blog.bitsrc.io/lazy-loading-react-components-with-react-lazy-and-suspense-f05c4cfde10c#:~:text=lazy%20function%20handles%20it%20with%20only%20one%20suspense%20component.&text=Then%20add%20the%20lazy%20component,%3Bimport%20'.%2Findex.)
+- Suspense is a component given by react, import it as a named import, and wrap the lazy loaded component inside the suspense, it requires a placeholder called as fallback, fallback is used by react to render when the code is not available, you can pass a JSX or a shimmer inside fallback 
 
 
 # Notes with Q&A here
 - [check this profile](https://github.com/Harshita-Kohli/Namaste-React) with [Linkedin](https://www.linkedin.com/in/harshita-kohli-4499b91b6/recent-activity/all/) 
+- [check this github repo](https://github.com/vaibhavhedaoo/fooodvilla)
+- [check this github repo](https://github.com/vaibhavhedaoo/table-of-contents_ReactWithHarshi)
