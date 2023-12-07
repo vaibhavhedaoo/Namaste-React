@@ -312,6 +312,18 @@ Parent ComponentDidMount
 - Suspense is a component given by react, import it as a named import, and wrap the lazy loaded component inside the suspense, it requires a placeholder called as fallback, fallback is used by react to render when the code is not available, you can pass a JSX or a shimmer inside fallback 
 
 
+# Episode - 10 | Jo dikhta hai wo bikta hai
+- In this chapter we are going to see how we can make our APP beautiful, we are going to add styles and CSS and various ways to apply css, we will use a CSS framework to add styles to whole app
+- the simplest and old way to add CSS is to add css classes in index.css and refer that css file in our APP
+- the next way to use CSS is SASS ans SCSS
+- next way is styled component 
+- next way is using framework few popular frameworks are Material UI, chakra, bootstrap, ANT design etc.
+- we are going to use Tailwind CSS in our APP, configure it inside the APP, Tailwind works with other framework as well, we need to go to framework guides and select Parcel as we are using Parcel in our APP [check here](https://tailwindcss.com/docs/guides/parcel), add configuration for PostCSS, Configure your template paths, Configure your template paths, Add the Tailwind directives to your CSS    
+- Now you can use tailwind CSS directely in your component, you can use tailwind VS code extension as well, Now you can add different classess on all the levels of component, also adjust the UI accordingly as per the requirement
+- After using tailwind classes, our APP looks like this, we have commented all the CSS we used earlier. 
+![After using tailwind](image-8.png)
+
+
 # Notes with Q&A here
 - [check this profile](https://github.com/Harshita-Kohli/Namaste-React) with [Linkedin](https://www.linkedin.com/in/harshita-kohli-4499b91b6/recent-activity/all/) 
 - [check this github repo](https://github.com/vaibhavhedaoo/fooodvilla)

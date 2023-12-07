@@ -10,18 +10,18 @@ const Header = () =>{
     },[btnName]);
     
     return(
-        <div className="header">
+        <div className="flex justify-between shadow-lg mb-2 ">
             <div className="logo-container">
-                <Link to="/"><img className="logo" src={LOGO_URL}/></Link>
+                <Link to="/"><img className="w-56" src={LOGO_URL}/></Link>
             </div>
-            <div className="nav-item">
-                <ul>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/grocery">Grocery</Link></li>
-                    <li><Link to="/about">About US</Link></li>
-                    <li><Link to="/contactus">Contact Us</Link></li>
-                    <li><Link to="/cart">Cart</Link></li>
-                    <li><button className="login" onClick={()=>{
+            <div className="flex items-center">
+                <ul className="flex p-4 m-4">
+                    <li className="px-4"><Link to="/">Home</Link></li>
+                    <li className="px-4"><Link to="/grocery">Grocery</Link></li>
+                    <li className="px-4"><Link to="/about">About US</Link></li>
+                    <li className="px-4"><Link to="/contactus">Contact Us</Link></li>
+                    <li className="px-4"><Link to="/cart">Cart</Link></li>
+                    <li className="px-4"><button className="login" onClick={()=>{
                         if(btnName == "Login")
                             SetBtnName("Logout");
                         else
