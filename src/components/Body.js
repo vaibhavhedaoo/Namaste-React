@@ -1,6 +1,6 @@
 import React from "react";
 import {useState,useEffect} from 'react'
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard,{withPromotedLabel} from "./RestaurantCard";
 import { CDN_SWIGGY_RESTAURANT_API } from "../utils/constants";
 import resList from "./../utils/mockdata";
 import ShimmerCard from "./ShimmerCard";
@@ -15,6 +15,7 @@ const Body = () =>{
     const [filteredRestaurant,setFilteredRestaurant] = useState([]);
     const onlineststus = useOnlineStatus();
     var allRes =[]; 
+    const PromotedRestaurant = withPromotedLabel(RestaurantCard);
 
     useEffect(()=>{
         fetchData();
@@ -24,12 +25,15 @@ const Body = () =>{
             const data = await fetch(CDN_SWIGGY_RESTAURANT_API);
             const json = await data.json();
             //console.log(json.data.cards);
-            for (let i = 3; i < json.data.cards.length; i++) {
+            //console.log(json.data.cards.length);
+            for (let i = 2; i < json.data.cards.length; i++) {
+                //console.log(json.data.cards[i].card.card);
                 allRes.push(json.data.cards[i].card.card.info);    
               }
-            //console.log(allRes);
+            // console.log(allRes);
             setListofRestaurant(allRes);  
-            setFilteredRestaurant(allRes);  
+            setFilteredRestaurant(allRes);
+            // console.log(filteredRestaurant);  
         }
         // if(listofRestaurant.length === 0)
         // {
@@ -49,6 +53,7 @@ const Body = () =>{
         {
            return <ShimmerCard/>;
         }
+        
        return(
         <div className="body">
             <div className="flex items-center">
@@ -62,7 +67,6 @@ const Body = () =>{
                             (res) => res.name.toUpperCase().includes(searchText.toUpperCase())
                         );
                             setFilteredRestaurant(filteredRestaurant);
-                        
                     }}>Search</button>
                     
                 </div>
@@ -85,10 +89,13 @@ const Body = () =>{
                     
             </div>
             <div className="flex flex-wrap">
-                {
-                    filteredRestaurant.map( restaurant => (
+                {                   
+                    filteredRestaurant.map( restaurant => (                        
                    <Link to={"/restaurant/"+restaurant.id} key={restaurant.id}>
-                        <RestaurantCard  resData={restaurant} />
+                    {/* if the restaurant is promoted then add a promoted label to it */                    
+                        restaurant.promoted ? (<PromotedRestaurant resData={restaurant}/>) :( <RestaurantCard  resData={restaurant} />)
+                    }
+                    
                    </Link> )
                 )}
                 {/* Don't use the below code change it to dynamic code by using map function use above  */}

@@ -3,6 +3,8 @@ import { useState,useEffect } from "react";
 import ShimmerCard from "./ShimmerCard";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import ResCategory from "./ResCatergory";
+
 const RestaurantMenu =()=>{
 
     //const[resData, SetResData] = useState(null);
@@ -32,26 +34,25 @@ const RestaurantMenu =()=>{
     if (resData === null)
         return <ShimmerCard/>;
        
-        const {name,avgRating,costForTwoMessage,cuisines} = resData?.data?.cards[0]?.card?.card?.info;
-        //const {header,couponCode,description} = offers.card.card.gridElements.infoWithStyle.offers[0].info
-    
+        //{console.log("resdata",resData)}
+        const {name,avgRating,costForTwoMessage,cuisines} = resData?.data?.cards[0]?.card?.card?.info;  
+        const categories = (resData?.data?.cards[2].groupedCard?.cardGroupMap?.REGULAR?.cards).filter(c => c.card?.["card"]?.["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory")
+        
         return(
-        <div className="menu">
-            <h1>{name}</h1>
-            <h3>{cuisines.join(', ')} - {costForTwoMessage}</h3>
-            <h3>Ratings (*){avgRating}</h3>
-            <br></br>
-            {/* <div >
-                <h2>{header}</h2>
-                <h3>{couponCode} | {description}</h3>
-            </div> */}
-            <br></br>
-            <h2>Menu</h2>
-            <ul>
-                <li>Burger</li>
-            </ul>
+        <div className="text-center ">
+            <h1 className="font-bold my-5 text-2xl">{name}</h1>
+            <h3 className="font-bold text-lg">{cuisines.join(', ')} - {costForTwoMessage}</h3>
+            
+            {                
+               categories.map((category) =>{
+                //{console.log(category)}
+                return <ResCategory key={category?.card?.card?.title} data={category?.card?.card}/>
+               }) 
+                
+            }
+           
         </div>
-    );
+    )
 }
 
 

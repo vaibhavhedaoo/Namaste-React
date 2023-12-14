@@ -323,6 +323,36 @@ Parent ComponentDidMount
 - After using tailwind classes, our APP looks like this, we have commented all the CSS we used earlier. 
 ![After using tailwind](image-8.png)
 
+# Episode - 11 | Data is the new oil
+## **HOC**
+- In this Episode we will learn about **Higher order component** - it is function which takes a existing component as argument and return the component, Higher order component takes the component, it enhances the component, it adds the power/features to that component, and returns it back. it act as a enhancer
+- Example, if you see swiggy some of the restaurant is having promoted/ad tag, but it looks similar to normal restaurant card just it is having Promoted/ad tag, we are going to build similar functionality wiht the help of Higher order component. similar example we are going to implement, if you check the data returned from the swiggy API we are getting Promoted : true ot false, we need to use same data
+- now go to restaurant card and create new function which will return you the Restaurant with Promoted label, this is nothing but the higher order function, now go to body where you are rendering all the cards for the restaurant, now we will use Higher order component, do a named import for withPromotedLabel, assign it to a const variable, no check if data is having propmoted or not and then render the cards accordingly
+![calling HOC](image-9.png)
+HOC looks like this ![HOC](image-10.png) 
+
+- Further we are going to design a Restaurant page very similar to swiggy, we have created a seprate component called ResCategory and ItemList, it shows the item list available in the restaurant in the accordian, we have created our own accordian
+
+![Item List](image-11.png)
+
+![Item List Accordian](image-12.png)
+
+- For Debugging and understanding the code in more better way install the **React Dev Tools** for chrome, it will add power to the DEV tool and gives you the options loke component and profiler
+![React DEV tool](image-13.png), Component shows you the list of component and after selection of any component it shows props, hooks, state etc, you can also called it as a virtual dom, it is capable to show you data layer and the UI layer  ![Alt text](image-14.png) 
+
+- In React DEV tools you will have the profiler, profiler is used to record the react application, it shows you different types of the graph about your action
+- Now the **problem** here with each Accordian is each accordian is having their own state and at a time they all are opend, we need to acheive the behaviour like we need to close the accordian if anyone is already opened [check the example here](https://getbootstrap.com/docs/5.0/components/accordion/), it is very difficult to acheive this behaviour because every accordian maintain their own state, and to close the accordian we need to change the state of other accordian item.
+- To solve this problem instead every accordian maintaine their state of opening and closing we need to give this power to thier parent, now parent will be going to manage the state so that every accrodian item will close and only one will be opened at a time, this phenomenon of controlling the bahiviour of the child by the parent is called as lifting the state up 
+
+## **Lifting state UP**
+- As we know, every component in React has its own state. Because of this sometimes data can be redundant and inconsistent. So, by Lifting up the state we make the state of the parent component as a single source of truth and pass the data of the parent in its children.
+- Time to use Lift up the State: If the data in “parent and children components” or in “cousin components” is Not in Sync.
+- Solution to above problem : For above problem to solve we are using RestaurantMenu(Parent) to handle the state of ResCategory(Child)
+
+## **Controlled and uncontrolled component**
+- 
+
+
 
 # Notes with Q&A here
 - [check this profile](https://github.com/Harshita-Kohli/Namaste-React) with [Linkedin](https://www.linkedin.com/in/harshita-kohli-4499b91b6/recent-activity/all/) 

@@ -22,7 +22,7 @@ const RestaurantCard= (props) =>{
                 <div className="w-[30px] border-4 bg-green-700 border-solid border-grey-700 mX-2 rounded-full">
                     <h4 className="transition duration-300 ease-in-out hover:scale-110">⭐</h4>    
                 </div>
-                    <div className="pt-1 font-bold">
+                    <div className="pt-1 font-bold ">
                     <h4 className="transition duration-300 ease-in-out hover:scale-110">{avgRating}  | </h4>
                     </div>
                     <h4 className="pt-1 font-bold transition duration-300 ease-in-out hover:scale-110">🛵{resData.sla.slaString}</h4>
@@ -31,6 +31,19 @@ const RestaurantCard= (props) =>{
     );
 };
 
+//Higher Order component 
 
+// it takes input as RestaurantCard and return output as RestaurantCardPromoted
+
+export const withPromotedLabel =(RestaurantCard)=>{
+    return (props)=>{
+        return(
+            <div>
+                <label className="absolute bg-orange-200 text-white mx-4 px-2 rounded-lg">Promoted</label>
+                <RestaurantCard {...props}/>
+            </div>
+        )
+    }
+}
 
 export default RestaurantCard
