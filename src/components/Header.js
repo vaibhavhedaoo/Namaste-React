@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../utils/UserContext";
 const Header = () =>{
     const [btnName,SetBtnName] = useState("Login");
     console.log("Header")
     useEffect(()=>{
         console.log("Useeffect called from Header");
     },[btnName]);
-    
+
+    const {loggedInUser} =  useContext(UserContext);
     return(
         <div className="flex justify-between shadow-lg mb-2 ">
             <div className="logo-container">
@@ -27,6 +29,7 @@ const Header = () =>{
                         else
                            SetBtnName("Login");
                     }}>{btnName}</button></li>
+                    <li className="px-4 font-bold">{loggedInUser}</li>
                 </ul>
             </div>
         </div>

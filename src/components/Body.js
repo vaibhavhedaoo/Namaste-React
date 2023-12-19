@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import {useState,useEffect} from 'react'
 import RestaurantCard,{withPromotedLabel} from "./RestaurantCard";
 import { CDN_SWIGGY_RESTAURANT_API } from "../utils/constants";
 import resList from "./../utils/mockdata";
 import ShimmerCard from "./ShimmerCard";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import Offline from "./Offline";
-
+import UserContext from "../utils/UserContext";
 const Body = () =>{
     //console.log(resList[0].data.cards[3].card.card.info);
     const [listofRestaurant,setListofRestaurant] = useState([]);//([resList[0].data.cards[3].card.card.info]); 
@@ -16,19 +16,30 @@ const Body = () =>{
     const onlineststus = useOnlineStatus();
     var allRes =[]; 
     const PromotedRestaurant = withPromotedLabel(RestaurantCard);
-
+    const {loggedInUser,setUserInfo} = useContext(UserContext);
     useEffect(()=>{
         fetchData();
         },[]);
     
         const fetchData = async() =>{
-            const data = await fetch(CDN_SWIGGY_RESTAURANT_API);
-            const json = await data.json();
-            //console.log(json.data.cards);
-            //console.log(json.data.cards.length);
-            for (let i = 2; i < json.data.cards.length; i++) {
-                //console.log(json.data.cards[i].card.card);
-                allRes.push(json.data.cards[i].card.card.info);    
+            const data =await fetch('https://thingproxy.freeboard.io/fetch/'+CDN_SWIGGY_RESTAURANT_API) //await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(CDN_SWIGGY_RESTAURANT_API)}`)
+            .then(response => {
+                //console.log(response);
+                if (response.ok) 
+                { 
+                    //console.log("got response"+ response.json);
+                    //console.log(response.json);
+                    return response.json()
+                
+                }
+                throw new Error('Network response was not ok.')
+            });
+            //console.log(data.data.cards);
+            const json = data.data.cards //JSON.parse(await data.data.cards);//data.contents);
+            //console.log(json);
+            for (let i = 2; i < json.length; i++) {
+                //console.log(json[i].card.card.info);
+                allRes.push(json[i].card.card.info);    
               }
             // console.log(allRes);
             setListofRestaurant(allRes);  
@@ -84,9 +95,12 @@ const Body = () =>{
                     setFilteredRestaurant(listofRestaurant);
                                                 }}>
                             Clear Filter
-                    </button>
-                </div>
+                    </button>                   
                     
+                </div>
+                <div>
+                        Setting context from here as UserName : <input type="text" className="border border-solid border-black p-2" value={loggedInUser} onChange={(e)=>{ setUserInfo(e.target.value)}} />
+                </div>    
             </div>
             <div className="flex flex-wrap">
                 {                   

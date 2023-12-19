@@ -116,6 +116,9 @@
 - Actual DOM is the list of tag, **Virtual DOM is the representation of actual DOM in the form of object**.
 - Diff algorithem, finds out the difference between 2 virtual dom previuos virtual DOM and latest virtual DOM
 
+## useContext() Hook
+- you can access the context data in the components using the useContext hook, refer chapter 11 for the details and the scenario
+
 # Episode-06 | Exploring the World
 ## Monolith vs Micro Service
 - In this chapter we are going to dicuss monolith vs micro service arch., fetch data dynamically and populate 
@@ -348,10 +351,45 @@ HOC looks like this ![HOC](image-10.png)
 - As we know, every component in React has its own state. Because of this sometimes data can be redundant and inconsistent. So, by Lifting up the state we make the state of the parent component as a single source of truth and pass the data of the parent in its children.
 - Time to use Lift up the State: If the data in “parent and children components” or in “cousin components” is Not in Sync.
 - Solution to above problem : For above problem to solve we are using RestaurantMenu(Parent) to handle the state of ResCategory(Child)
+- Now we are removing the state from Rescategory, and we will pass a property from it's parent as props, when you implement this type of behaviour is called **controlled component**, here we are controlling the Child component from the parent hence ResCategory(child) is controlled component, next we need the index of the component in which we need to pass showItem as true inside the map function of the RestaurantMenu, so in RestaurantMenu we are declaring a state called showIndex and set default value as 0, so that first one will be opened, Now the challenge is to setShowIndex from the child, but the setShowIndex function is available in the Parent component, to invoke this function from the child is not possible, so we need to use a trick we are going to pass the same function to child componnet and execute the same function on the click handler, the way we are handling the code is used to communicate from child to parent  
 
 ## **Controlled and uncontrolled component**
-- 
+- Controlled components refer to the components where the state and behaviors are controlled by Parent components while Uncontrolled components are the ones having control of their own state and manage the behaviors on themselves.
 
+## **Props Drilling**
+- **Problem** : suppose we have a tree of component where diffeent component is attached to a root component, in this component tree there are single root node component, several intermidiate component, and several leaf component, in case we need to pass some data from root node to leaf node, we need to pass the data with the help of props through the intemeidate node component, and these intermidiate node component has nothing to do with the data that is required by leaf node, it is just receiving the data from root  node and pass the same data to leaf node, it's not the good way to pass the data, in this way it is having the responsibility of just passing the data, but imagine if we have a deep tree structure then intermidiate node will just pass the data, it's fine to pass the data through props till one or two levels, so passing data through props till various level is called [**props drilling**](https://react.dev/learn/passing-data-deeply-with-context#the-problem-with-passing-props)
+- [Props drilling and How to avoid it](https://www.geeksforgeeks.org/what-is-prop-drilling-and-how-to-avoid-it/) Can we have a solution to this problem, so that we can access any data from any level of the component, YES with the help of **Context API**
+
+## **Context API**
+- With Context API, you can create a “context” that holds the user’s shopping information, like their cart and order history. Then, you can use that context in both the shopping cart and the order history component, without having to pass the information down through props. [Read more here](https://www.freecodecamp.org/news/context-api-in-react/)
+- Creating a context : Context is common across the application hence we are going to create it inside utils, you can create a context with the help of createContext which is the part of the react, you can also save some default values inside it, but you need to export it which is important.Don't put all the data inside Context. Now you can use the context anywhere inside the application in any component but to naccess the Context you need to use a special hook called **useContext Hook**  
+- Now to access the context API data you need to use the useContext Hook and you will get the data 
+- **Limitation of useContext Hook** :  you can create a context but you can not access the context with the help of useContext hook inside a class based component, for functional component you can use it with the help of useContext Hook, for the same sceanrio to implement we are using AboutUs class component.
+- Solution to above problem - go to AboutUs class component and import UserContext, use the tag with context name and '.context' with it like 
+"<UserContext.Consumer>",for class based component it is very similar to the component, it is not Hook, in between this you need to write the JSX, the code looks like this.
+![UserContext.Consumer](image-15.png)
+- So there are 2 ways to consime the context 1. with the help of useContext Hook inside the functional component 2.  by using the component method like <UserContext.Consumer> in side the class component
+- Till now we have used the context by reading it's value and cretaing a Context, what about writing the Context, let's have a scenario in App.js we are having a authentication code, which is calling a API and it is returning the name of the user, so save the data in a local state you are getting from API, and now wrap your JSX inside the context component and pass a value attribute it will set the data inside the context, basically we are overridding the context values, and then it will refelect the data everywhere  ![UserContext.provider](image-16.png)  
+- Actually it is setting the boundaries of the context, for the same context if you set the different values then different values will reflect in your different section. Otside the bounderies it will give you the default values and inside the defined bounderies it will give you the set values.
+- Now, Next we will be going to change the context on the fly with the help of the Input box, next to search button we are going to to craete a input box, Now you need to set the data of UserInfo, for this chande in data we are having the function available in APP.js which is nothing but setUserInfo, but setUserInfo is available inside APP.js we need to change the data inside Body.js 
+- so to access setUserInfo inside Body.js we need to pass it from App.js inside UserContext.Provider like `<UserContext.Provider value={{loggedInUser:userInfo,setUserInfo}}>`
+- Now do a array destructuring and access the data values along with function `const {loggedInUser,setUserInfo} = useContext(UserContext);`
+- use the UI like below code 
+                    `<div>
+                        Setting context from here as UserName : <input type="text" className="border border-solid border-black p-2" value={loggedInUser} onChange={(e)=>{ setUserInfo(e.target.value)}} />
+                </div>  `
+- In this way, what ever you are going to type will be reflect everywhere you use the context values.
+![context changing on the fly](image-17.png) 
+
+-------------------------------Note 1---------------------------------
+- we are having the CORS issue because 'https://corsproxy.io/?'  has blocked our IP to use 
+- Now we have shifted to 'api.allorigins.win/get' code has been  changed slightely
+-------------------------------Note 1---------------------------------
+
+-------------------------------Note 2---------------------------------
+- we are having the CORS issue because 'api.allorigins.win/get' is not working
+- Now we have shifted to 'https://thingproxy.freeboard.io/fetch/' code has been  changed slightely
+-------------------------------Note 2---------------------------------
 
 
 # Notes with Q&A here
