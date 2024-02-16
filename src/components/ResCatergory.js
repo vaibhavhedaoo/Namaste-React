@@ -12,7 +12,7 @@ const ResCategory =({data,showItem,setShowItem}) =>{
             <span className="text-left font-bold text-lg">{data.title} ({data.itemCards.length})</span>
             <span className="text-right">⬇️</span>
         </div>
-        {showItem && <ItemList items={data.itemCards}/>}
+        {showItem && <ItemList items={data.itemCards} showButton={'true'}/>}
     
     </div>
     

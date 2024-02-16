@@ -1,7 +1,14 @@
 import React from "react";
 import { CDN_URL } from "../utils/constants";
-const ItemList =({items}) =>{
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartslice";
+const ItemList =({items,showButton}) =>{
     //console.log(items);
+    const dispatch = useDispatch();
+    const handleAddItem =(data)=>{
+        // dispatch an item
+        dispatch(addItem(data));
+    }
     return (
         <div>
                 {items.map((item) => (
@@ -19,7 +26,12 @@ const ItemList =({items}) =>{
                             {item?.card?.info?.imageId ? (
                                 <div> 
                                     <div className="absolute"> 
-                                        <button className="p-2 mx-10  mt-16 mb-12 rounded-lg bg-white shadow-lg  m-auto w-max">Add +</button>
+                                    {showButton === 'true' ? 
+                                        (<button className="p-2 mx-10  mt-16 mb-12 rounded-lg bg-white shadow-lg  m-auto w-max" onClick={()=>handleAddItem(item)}>Add +</button>
+                                        ) 
+                                        :
+                                        ('')
+                                    }
                                     </div>
                                     <div className="w-[144px]">
                                         <img src={CDN_URL+item?.card?.info?.imageId} alt="food-image" className="w-[144px] h-[99px] rounded-lg "/>
@@ -27,8 +39,14 @@ const ItemList =({items}) =>{
                                 </div>
                             ) : (
                                 <div className=""> 
-                                        <button className="p-2 rounded-lg bg-white shadow-lg  m-auto w-max">Add +</button>
-                                    </div>
+                                {showButton === 'true' ? 
+                                        (
+                                        <button className="p-2 rounded-lg bg-white shadow-lg  m-auto w-max" onClick={() =>handleAddItem(item)}>Add +</button>
+                                        )
+                                        :
+                                        ('')
+                                } 
+                                        </div>
                             )}
                             
                         </div> 

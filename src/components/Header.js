@@ -3,6 +3,7 @@ import { LOGO_URL } from "../utils/constants";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 const Header = () =>{
     const [btnName,SetBtnName] = useState("Login");
     console.log("Header")
@@ -10,6 +11,8 @@ const Header = () =>{
         console.log("Useeffect called from Header");
     },[btnName]);
 
+    // subscribing to the store using selector
+    const cartitems = useSelector((store) => store.cart.items);
     const {loggedInUser} =  useContext(UserContext);
     return(
         <div className="flex justify-between shadow-lg mb-2 ">
@@ -22,7 +25,7 @@ const Header = () =>{
                     <li className="px-4"><Link to="/grocery">Grocery</Link></li>
                     <li className="px-4"><Link to="/about">About US</Link></li>
                     <li className="px-4"><Link to="/contactus">Contact Us</Link></li>
-                    <li className="px-4"><Link to="/cart">Cart</Link></li>
+                    <li className="px-4 text-lg font-bold"><Link to="/cart">Cart : ({cartitems.length} items)</Link></li>
                     <li className="px-4"><button className="login" onClick={()=>{
                         if(btnName == "Login")
                             SetBtnName("Logout");

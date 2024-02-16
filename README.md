@@ -392,6 +392,28 @@ HOC looks like this ![HOC](image-10.png)
 -------------------------------Note 2---------------------------------
 
 
+# Episode - 12 | Let's Build our store
+- In this chapter we are building our own store with the help of Redux, there is a chrome extension for the Redux as well, it helps in debugging application state change
+- remember Redux and React are different libraries, Redux is not mandatory in react application, use Redux wisely and only when it is required.
+- Redux is not only library to create data store, there are others as well like Zustand
+- There are 2 libraries that React team offers, 1. React-Redux [it act as the bridge bwtween React and Redux library]  2. Redux Toolkit [it is having newer ways to write Redux code, it is latest way which is used in the current industry] 
+- We will be using Redux Toolkit along with React-Redux [Read more here](https://redux-toolkit.js.org/introduction/getting-started), we are not going to use vanila redux 
+- Redux store is a big JS object contains lot of data inside kept in a global central place
+- if the redux store is too big we can use slices, a slice is a small portion of redux store,  logical partition of data is called as slices eg. User slice, Card slice
+- for our case we are going to add a functionality which will add the data amd modify data when we click on any item from the restaurant menu, and also it should update the count of the cart which we are going to show on the header of the application. We can not add/modify data in slice,to write the data,  when we click on 'ADD' button it dispathches an Action, then it calls a function, and then the function modifies the cart, this function is known as reducer function
+-  Redaing the data from the Slice, Now after we added item to the slice we need to show the count over the cart, which shows how many items are there in the cart, for the same we will be using a Selector, this phenomenon is called Subscribing to the store, which ever component subscribed the store will be in sync with the store, and get the live data available to the specific slice    
+
+![Redux-Toolkit under the hood ](image-18.png)
+
+## Steps to use Redux Toolkit
+- Install @reduxjs/toolkit and react-redux 
+- Build our store :  inside utils create a file called store and create a function called configureStore();
+- Connect our store to our APP : we need to provide store to our application, go to the root of the application i.e. App.js and import Provider from react-redux wrap the root with Provider and pass store as parameter
+- Create slice(cartslice) :  create s seprate file, called cartslice.js, provide the configuration written in cartslice.js, add the slice to the store.js
+- dispatch(action) :  useDispatch is a hook, you use this to dispatch a action over the store, go to Itemlist and implement a dispatch which will update the store. 
+- selector :  Selector is nothing but a hook, go to Header.js, in the cart it should show the count of the item present in the store, we need to create a subscriber
+
+
 # Notes with Q&A here
 - [check this profile](https://github.com/Harshita-Kohli/Namaste-React) with [Linkedin](https://www.linkedin.com/in/harshita-kohli-4499b91b6/recent-activity/all/) 
 - [check this github repo](https://github.com/vaibhavhedaoo/fooodvilla)
