@@ -34,8 +34,9 @@ const RestaurantMenu =()=>{
         return <ShimmerCard/>;
        
         // {console.log("resdata",resData)}
-        const {name,avgRating,costForTwoMessage,cuisines} = resData?.cards[0]?.card?.card?.info;  
-        const categories = (resData?.cards[2].groupedCard?.cardGroupMap?.REGULAR?.cards).filter(c => c.card?.["card"]?.["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory")
+        const {name,avgRating,costForTwoMessage,cuisines} = resData?.cards[2]?.card?.card?.info; 
+        //console.log(resData.cards[2]) 
+        const categories = (resData?.cards[4].groupedCard?.cardGroupMap?.REGULAR?.cards).filter(c => c.card?.["card"]?.["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory")
         
         return(
         <div className="text-center ">

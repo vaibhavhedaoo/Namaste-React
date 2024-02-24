@@ -414,6 +414,54 @@ HOC looks like this ![HOC](image-10.png)
 - selector :  Selector is nothing but a hook, go to Header.js, in the cart it should show the count of the item present in the store, we need to create a subscriber
 
 
+# Episode 13 |  Time for Test
+- In this Episode we are going to learn how to use testing framework to test the application. We can do 3 types of testing as a devloper 1.Unit testing 2.Integration testing 3.End to End Testing, we will be focusing on first 2 types of testing. 
+- 1. Unit testing :  testing component in isolation
+- 2. Integration testing : Testing the interagtion of component when component communicate with each other, many component will start reacting together  
+- 3. End to End testing : Testing the complete Application, with full functionality, from user's perspective how the application will work
+
+## steps for testing, setting the enviornment  
+- Install React testing library, it depends on DOM Testing Library, npm install -D @testing-library/react
+- React testing library uses Jest, it is a framework, it is a standard for writing the test cases,  npm install -D jest
+- when you are using jest with babel, you need to install few more things called as babel dependencies, npm install --save-dev babel-jest @babel/core @babel/preset-env 
+- you need to configure the babel also, [visit here for configuration](https://jestjs.io/docs/getting-started), create configure file and add the required code.
+- you need to write configuration for Parcel, refer .parcelrc file, it disable default babel trnaspilation 
+- configure jext by initializing jest, it will create the config file, answer the question properly, npx jest --init 
+- install jsdom library, npm install -D jest-environment-jsdom
+- install @babel/preset-react to make JSX work in test case, include it inside in babel config
+- install testing-library/jest-dom and import it in test file
+
+## Writing a basic testing
+- Write sum.js file and create a logic to return sum of 2 variable
+- create __tests__ folder and create test file for sum.js, _ _ called as dunder
+- write a function test, which takes 2 argument, 1. a string and 2. a call back function, check the ressult in the Assertion, run the test 
+- after test got executed you will test results in the console
+
+## React tetsing in Action
+1. Unit testing
+- Now we will be writing the test case for react component, we will check if the contact us page (component) will load or not 
+- create a Contact.test.js file, when you write the test for UI component you need to render that component, and render method will come from testing library, next you need to check something static is available on the page, in our case we are going to check the heading from contact us page is loaded or not with the help of screen 
+- we have written few test cases check contact.test.js file
+- sometimes our test file increases, then we can group test cases with the help of `describe("contact us test cases",()=>{})`, we can group test cases like these, we can add many test cases inside the describe to group them in single unit.
+- while writing the test cases, we have written the test cases inside test() function, we can also use it() function instead of test(), it() is an alias of test(), both are same.
+- Now we will be writing test cases for Header component, add a Header.test.js file 
+- Header component is not simple, it is dependent on other component, so we need to provide the dependencies required import those dependencies and provide it in proper structure
+- Now another test case we are going to write is for the cart in same file, we will check when the component loaded are we getting Cart or not, are we getting Cart : (0 items) or not
+- Now we are going to write the test case on click of the login button. fireevent is used to fire the event. 
+- Now we are going to write test cases for Restaurant card component, it is our landing page, RestaurantCard is the component we are going to test, we are passing resData as a props to the component, hence we need to create a mock that we are going to pass as the props to the component. for mock we are saving a object in rescardMocksData.json file in the form of json and oass it as a props.
+
+2. Integration testing
+- Now we are moving into integration testing, in this type of testing multiple component will be working together, we are going to test search flow, Flow is like when we write pizza in the search box and click on search button it should load the card which contains pizza
+- We will be rendering the Body component, for Body component we will be required to have fetch function we need to create a mock function as a global.fetch, 
+- Whenevevr you do a asyn operation and when you do a state update wrap your render function inside a act method
+- Suppose you are writing many test cases of similar type and you are using describe function, if you want to do some type of activity or execute something you can write beforeAll() function, there is another function called beforeEach() this function will called before each test function will gets called, all these functions are available from jest libarary
+- Now we are going to do a Integration test for Add to Cart functionality
+
+
+Note :  Everytime you have to write the npm test command to run your test, to make it work automatically like parcel HMR, go to package.json file and create a new command "watch-test" : "jest --watch", after you done the configuratuon run this command npm run watch-test
+RESUME :  2:27:42
+
+
 # Notes with Q&A here
 - [check this profile](https://github.com/Harshita-Kohli/Namaste-React) with [Linkedin](https://www.linkedin.com/in/harshita-kohli-4499b91b6/recent-activity/all/) 
 - [check this github repo](https://github.com/vaibhavhedaoo/fooodvilla)

@@ -1,0 +1,72 @@
+{
+    "id": "12826",
+    "name": "Tasty Punjab",
+    "cloudinaryImageId": "u1h22xu0u9z21bkzbcgd",
+    "locality": "Magarpatta",
+    "areaName": "Magarpatta City",
+    "costForTwo": "₹350 for two",
+    "cuisines": [
+        "Biryani",
+        "Chinese",
+        "Punjabi",
+        "Tandoor",
+        "Thalis",
+        "Street Food"
+    ],
+    "avgRating": 4.1,
+    "parentId": "14346",
+    "avgRatingString": "4.1",
+    "totalRatingsString": "10K+",
+    "promoted": true,
+    "adTrackingId": "cid=11400135~p=1~eid=0000018d-da3b-ecee-3b62-799800080152~srvts=1708763376878~83649",
+    "sla": {
+        "deliveryTime": 23,
+        "lastMileTravel": 0.7,
+        "serviceability": "SERVICEABLE",
+        "slaString": "20-25 mins",
+        "lastMileTravelString": "0.7 km",
+        "iconType": "ICON_TYPE_EMPTY"
+    },
+    "availability": {
+        "nextCloseTime": "2024-02-25 03:45:00",
+        "opened": true
+    },
+    "badges": {},
+    "isOpen": true,
+    "type": "F",
+    "badgesV2": {
+        "entityBadges": {
+            "textBased": {},
+            "imageBased": {},
+            "textExtendedBadges": {}
+        }
+    },
+    "aggregatedDiscountInfoV3": {
+        "header": "₹125 OFF",
+        "subHeader": "ABOVE ₹249",
+        "discountTag": "FLAT DEAL"
+    },
+    "orderabilityCommunication": {
+        "title": {},
+        "subTitle": {},
+        "message": {},
+        "customIcon": {}
+    },
+    "differentiatedUi": {
+        "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+        "differentiatedUiMediaDetails": {
+            "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+            "lottie": {},
+            "video": {}
+        }
+    },
+    "reviewsSummary": {},
+    "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+    "restaurantOfferPresentationInfo": {},
+    "externalRatings": {
+        "aggregatedRating": {
+            "rating": "--"
+        }
+    },
+    "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+}
